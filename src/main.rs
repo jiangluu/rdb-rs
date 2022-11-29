@@ -93,6 +93,9 @@ pub fn main() {
             "plain" => {
                 res = rdb::parse(reader, rdb::formatter::Plain::new(), filter);
             },
+			"cli" => {
+                res = rdb::parse(reader, rdb::formatter::Cli::new(), filter);
+            },
             "nil" => {
                 res = rdb::parse(reader, rdb::formatter::Nil::new(), filter);
             },

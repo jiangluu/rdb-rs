@@ -1,6 +1,6 @@
 pub mod version {
     pub const SUPPORTED_MINIMUM : u32 = 1;
-    pub const SUPPORTED_MAXIMUM : u32 = 7;
+    pub const SUPPORTED_MAXIMUM : u32 = 9;
 }
 
 pub mod constant {
@@ -11,6 +11,8 @@ pub mod constant {
 }
 
 pub mod op_code {
+	pub const IDLE : u8 = 248;
+	pub const FREQ : u8 = 249;
     pub const AUX : u8 = 250;
     pub const RESIZEDB : u8 = 251;
     pub const EXPIRETIME_MS : u8 = 252;

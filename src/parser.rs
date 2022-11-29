@@ -103,6 +103,7 @@ pub fn verify_version<R: Read>(input: &mut R) -> RdbOk {
         (version[2]-48) as u32 * 10 +
         (version[3]-48) as u32;
 
+	//println!("Version of RDB: {}", version);
     let is_ok = version >= version::SUPPORTED_MINIMUM &&
         version <= version::SUPPORTED_MAXIMUM;
 
@@ -196,6 +197,16 @@ impl<R: Read, F: Formatter, L: Filter> RdbParser<R, F, L> {
 
                     self.formatter.resizedb(db_size, expires_size);
                 },
+				 op_code::IDLE => {
+                    let aa = try!(read_length(&mut self.input));
+					//self.input.read_u8();
+					self.formatter.idle(aa);
+				 },
+				 op_code::FREQ => {
+                    let aa = try!(read_length(&mut self.input));
+					//self.input.read_u8();
+					self.formatter.freq(aa);
+				 },
                 op_code::AUX => {
                     let auxkey = try!(read_blob(&mut self.input));
                     let auxval = try!(read_blob(&mut self.input));

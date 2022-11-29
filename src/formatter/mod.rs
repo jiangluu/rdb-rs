@@ -4,6 +4,7 @@ pub use self::nil::Nil;
 pub use self::plain::Plain;
 pub use self::json::JSON;
 pub use self::protocol::Protocol;
+pub use self::cli::Cli;
 
 use super::types::EncodingType;
 
@@ -11,6 +12,7 @@ pub mod nil;
 pub mod plain;
 pub mod json;
 pub mod protocol;
+pub mod cli;
 
 
 pub fn write_str<W: Write>(out: &mut W, data: &str) {
@@ -28,6 +30,8 @@ pub trait Formatter {
 
     fn resizedb(&mut self, db_size: u32, expires_size: u32) {}
     fn aux_field(&mut self, key: &[u8], value: &[u8]) {}
+	fn idle(&mut self, value:u32) {}
+	fn freq(&mut self, value:u32) {}
 
     fn set(&mut self, key: &[u8], value: &[u8], expiry: Option<u64>) {}
 
