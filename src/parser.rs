@@ -292,6 +292,25 @@ impl<R: Read, F: Formatter, L: Filter> RdbParser<R, F, L> {
 
         Ok(())
     }
+	
+	fn read_sorted_set_2(&mut self, key: &[u8]) -> RdbOk {
+        let mut set_items = unwrap_or_panic!(read_length(&mut self.input));
+
+        self.formatter.start_sorted_set(key, set_items, self.last_expiretime, EncodingType::Hashtable);
+
+        while set_items > 0 {
+            let val = try!(read_blob(&mut self.input));
+            let score = try!(self.input.read_f64::<LittleEndian>());
+
+            self.formatter.sorted_set_element(key, score, &val);
+
+            set_items -= 1;
+        }
+
+        self.formatter.end_sorted_set(key);
+
+        Ok(())
+    }
 
     fn read_hash(&mut self, key: &[u8]) -> RdbOk {
         let mut hash_items = try!(read_length(&mut self.input));
@@ -622,6 +641,9 @@ impl<R: Read, F: Formatter, L: Filter> RdbParser<R, F, L> {
             },
             encoding_type::ZSET => {
                 try!(self.read_sorted_set(key))
+            },
+			encoding_type::ZSET_2 => {
+                try!(self.read_sorted_set_2(key))
             },
             encoding_type::HASH => {
                 try!(self.read_hash(key))

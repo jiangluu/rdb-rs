@@ -27,12 +27,14 @@ pub mod encoding_type {
     pub const SET : u8 = 2;
     pub const ZSET : u8 = 3;
     pub const HASH : u8 = 4;
+	pub const ZSET_2 : u8 = 5; //ZSET version 2 with doubles stored in binary.
     pub const HASH_ZIPMAP : u8 = 9;
     pub const LIST_ZIPLIST : u8 = 10;
     pub const SET_INTSET : u8 = 11;
     pub const ZSET_ZIPLIST : u8 = 12;
     pub const HASH_ZIPLIST : u8 = 13;
     pub const LIST_QUICKLIST : u8 = 14;
+	pub const STREAM_LISTPACKS: u8 = 15;
 }
 
 pub mod encoding {
